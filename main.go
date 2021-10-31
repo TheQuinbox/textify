@@ -20,7 +20,7 @@ func main() {
 		fmt.Printf("Error reading the file. %s\n", err)
 		os.Exit(1)
 	}
-	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
+	if !isSupportedFile(os.Args[1]) {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
@@ -46,4 +46,12 @@ func fileExists(filename string) bool {
 		return false
 	}
 	return !info.IsDir()
+}
+
+// Checks if the file given is supported by Textify.
+func isSupportedFile(filename string) bool {
+	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
+		return false
+	}
+	return true
 }
