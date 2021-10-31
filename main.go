@@ -21,7 +21,7 @@ func main() {
 		fmt.Printf("Error reading the file. %s\n", err)
 		os.Exit(1)
 	}
-	if !strings.HasSuffix(os.Args[1], ".md") {
+	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
