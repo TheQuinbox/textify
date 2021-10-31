@@ -5,6 +5,7 @@ import (
 	"github.com/writeas/go-strip-markdown"
 	"os"
 	"strings"
+	"jaytaylor.com/html2text"
 )
 
 func main() {
@@ -21,20 +22,32 @@ func main() {
 		fmt.Printf("Error reading the file. %s\n", err)
 		os.Exit(1)
 	}
-	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
+	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
 	fmt.Printf("Converting %s to text...", os.Args[1])
-	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
-	if err != nil {
-		fmt.Printf("There was an error writing the file. %s\n", err)
-		os.Exit(1)
+	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
+		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
+		if err != nil {
+			fmt.Printf("There was an error writing the file. %s\n", err)
+			os.Exit(1)
+		}
+	} else if strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") || strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
+		text, err := html2text.FromString(string(data), html2text.Options{PrettyTables: true})
+		if err != nil {
+			fmt.Printf("Error writing the file. %s\n", err)
+		}
+		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
+		if err != nil {
+			fmt.Printf("There was an error writing the file. %s\n", err)
+			os.Exit(1)
+		}
 	}
 	fmt.Println("Done!")
 }
 
-// Simple function to check if a file exists. If the file doesn't exist or is a directory, it returns false. Otherwise, true.
+// Simple function to check if a file exists. If the file doesn't exist || is a directory, it returns false. Otherwise, true.
 func fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
