@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/writeas/go-strip-markdown"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -18,6 +19,10 @@ func main() {
 	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Printf("Error reading the file. %s\n", err)
+		os.Exit(1)
+	}
+	if !strings.HasSuffix(os.Args[1], ".md") {
+		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
 	fmt.Println(stripmd.Strip(string(data)))
