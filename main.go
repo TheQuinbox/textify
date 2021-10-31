@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
+	"github.com/writeas/go-strip-markdown"
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) != 2 {
 		fmt.Println("Usage: textify <filename>")
 		os.Exit(1)
 	}
@@ -14,6 +15,11 @@ func main() {
 		fmt.Println("Error: that file does not exist.")
 		os.Exit(1)
 	}
+	data, err := os.ReadFile(os.Args[1])
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(stripmd.Strip(string(data)))
 }
 
 func fileExists(filename string) bool {
