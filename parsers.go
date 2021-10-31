@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/writeas/go-strip-markdown"
 	"jaytaylor.com/html2text"
 )
@@ -16,8 +15,7 @@ func parseMarkdown(text string) string {
 func parseHtml(text string) string {
 	data, err := html2text.FromString(string(text), html2text.Options{PrettyTables: true})
 	if err != nil {
-		fmt.Printf("Error writing the file. %s\n", err)
-		return ""
+		panic(err)
 	}
 	return data
 }

@@ -22,8 +22,7 @@ func main() {
 	fmt.Printf("Converting %s to text...", os.Args[1])
 	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
-		fmt.Printf("Error reading the file. %s\n", err)
-		os.Exit(1)
+		panic(err)
 	}
 	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
@@ -33,8 +32,7 @@ func main() {
 	}
 	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
 	if err != nil {
-		fmt.Printf("There was an error writing the file. %s\n", err)
-		os.Exit(1)
+		panic(err)
 	}
 	fmt.Println("Done!")
 }
