@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/writeas/go-strip-markdown"
 	"os"
 	"strings"
-	"jaytaylor.com/html2text"
 )
 
 func main() {
@@ -27,22 +25,16 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("Converting %s to text...", os.Args[1])
+	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
-		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
-		if err != nil {
-			fmt.Printf("There was an error writing the file. %s\n", err)
-			os.Exit(1)
-		}
+		text = parseMarkdown(string(data))
 	} else if strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") || strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
-		text, err := html2text.FromString(string(data), html2text.Options{PrettyTables: true})
-		if err != nil {
-			fmt.Printf("Error writing the file. %s\n", err)
-		}
-		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
-		if err != nil {
-			fmt.Printf("There was an error writing the file. %s\n", err)
-			os.Exit(1)
-		}
+		text = parseHtml(string(data))
+	}
+	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
+	if err != nil {
+		fmt.Printf("There was an error writing the file. %s\n", err)
+		os.Exit(1)
 	}
 	fmt.Println("Done!")
 }
