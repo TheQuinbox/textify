@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/writeas/go-strip-markdown"
 	"os"
 	"strings"
-	"jaytaylor.com/html2text"
 )
 
 func main() {
