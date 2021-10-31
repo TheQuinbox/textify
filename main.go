@@ -25,6 +25,7 @@ func main() {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
+	fmt.Printf("Converting %s to text...", os.Args[1])
 	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
 	if err != nil {
 		fmt.Printf("There was an error writing the file. %s\n", err)
