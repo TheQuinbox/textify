@@ -15,4 +15,8 @@
 # vendor/
 
 # Custom.
+
+# Files for testing.
 *.txt
+*.html
+*.htm
