@@ -3,9 +3,9 @@
 package main
 
 import (
-	"jaytaylor.com/html2text"
-	"github.com/writeas/go-strip-markdown"
 	"fmt"
+	"github.com/writeas/go-strip-markdown"
+	"jaytaylor.com/html2text"
 )
 
 func parseMarkdown(text string) string {
