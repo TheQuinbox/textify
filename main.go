@@ -15,32 +15,26 @@ func main() {
 		fmt.Printf("Error: %s does not exist.\n", os.Args[1])
 		os.Exit(1)
 	}
+	if !isSupportedFile(os.Args[1]) {
+		fmt.Println("Error: textify doesn't support that type of file.")
+		os.Exit(1)
+	}
+	fmt.Printf("Converting %s to text...", os.Args[1])
 	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Printf("Error reading the file. %s\n", err)
 		os.Exit(1)
 	}
-	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
-		fmt.Println("Error: textify doesn't support that type of file.")
-		os.Exit(1)
-	}
-	fmt.Printf("Converting %s to text...", os.Args[1])
+	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
-		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
-		if err != nil {
-			fmt.Printf("There was an error writing the file. %s\n", err)
-			os.Exit(1)
-		}
+		text = parseMarkdown(string(data))
 	} else if strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") || strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
-		text, err := html2text.FromString(string(data), html2text.Options{PrettyTables: true})
-		if err != nil {
-			fmt.Printf("Error writing the file. %s\n", err)
-		}
-		err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
-		if err != nil {
-			fmt.Printf("There was an error writing the file. %s\n", err)
-			os.Exit(1)
-		}
+		text = parseHtml(string(data))
+	}
+	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
+	if err != nil {
+		fmt.Printf("There was an error writing the file. %s\n", err)
+		os.Exit(1)
 	}
 	fmt.Println("Done!")
 }
@@ -52,4 +46,12 @@ func fileExists(filename string) bool {
 		return false
 	}
 	return !info.IsDir()
+}
+
+// Checks if the file given is supported by Textify.
+func isSupportedFile(filename string) bool {
+	if !strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") && !strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
+		return false
+	}
+	return true
 }
