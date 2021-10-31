@@ -5,7 +5,7 @@ CLI tool to convert many common document types to plane text.
 ## Building.
 
 ```batch
-git clone https://www.github.com/TheQUinbox/textify
+git clone https://www.github.com/TheQuinbox/textify
 cd textify
 go get
 go build
