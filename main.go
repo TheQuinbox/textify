@@ -15,16 +15,16 @@ func main() {
 		fmt.Printf("Error: %s does not exist.\n", os.Args[1])
 		os.Exit(1)
 	}
-	data, err := os.ReadFile(os.Args[1])
-	if err != nil {
-		fmt.Printf("Error reading the file. %s\n", err)
-		os.Exit(1)
-	}
 	if !isSupportedFile(os.Args[1]) {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
 	fmt.Printf("Converting %s to text...", os.Args[1])
+	data, err := os.ReadFile(os.Args[1])
+	if err != nil {
+		fmt.Printf("Error reading the file. %s\n", err)
+		os.Exit(1)
+	}
 	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
 		text = parseMarkdown(string(data))
