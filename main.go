@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"github.com/writeas/go-strip-markdown"
+	"os"
 )
 
 func main() {
@@ -22,6 +22,7 @@ func main() {
 	fmt.Println(stripmd.Strip(string(data)))
 }
 
+// Simple function to check if a file exists. If the file doesn't exist or is a directory, it returns false. Otherwise, true.
 func fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
