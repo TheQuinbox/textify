@@ -25,7 +25,12 @@ func main() {
 		fmt.Println("Error: textify doesn't support that type of file.")
 		os.Exit(1)
 	}
-	fmt.Println(stripmd.Strip(string(data)))
+	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(stripmd.Strip(string(data))), 0644)
+	if err != nil {
+		fmt.Printf("There was an error writing the file. %s\n", err)
+		os.Exit(1)
+	}
+	fmt.Println("Done!")
 }
 
 // Simple function to check if a file exists. If the file doesn't exist or is a directory, it returns false. Otherwise, true.
