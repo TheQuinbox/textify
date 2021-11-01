@@ -20,5 +20,5 @@ go build
 ## Usage.
 
 ```batch
-textify <file-toconvert.extension>
+textify <file-to-convert.extension>
 ```
