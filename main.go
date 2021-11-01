@@ -37,7 +37,7 @@ func main() {
 	fmt.Println("Done!")
 }
 
-// Simple function to check if a file exists. If the file doesn't exist || is a directory, it returns false. Otherwise, true.
+// Simple function to check if a file exists. If the file doesn't exist or is a directory, it returns false. Otherwise, true.
 func fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
