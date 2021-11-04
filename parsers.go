@@ -1,4 +1,4 @@
-// All our parsing code. Each function takes the text as a string, and returns a string.
+// All our parsing code. Each function takes the filename as a string, and returns a string containing the parsed text.
 
 package main
 
