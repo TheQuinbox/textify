@@ -22,11 +22,11 @@ func main() {
 	fmt.Printf("Converting %s to text...", os.Args[1])
 	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
-		text = parseMarkdown(os.Args[1]])
+		text = parseMarkdown(os.Args[1])
 	} else if strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") || strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
 		text = parseHtml(os.Args[1])
 	}
-	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
+	err := os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
 	if err != nil {
 		panic(err)
 	}
