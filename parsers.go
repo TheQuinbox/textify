@@ -13,7 +13,7 @@ func parseMarkdown(text string) string {
 }
 
 func parseHtml(text string) string {
-	data, err := html2text.FromString(string(text), html2text.Options{PrettyTables: true})
+	data, err := html2text.FromString(string(text), html2text.Options{PrettyTables: true, TextOnly: true})
 	if err != nil {
 		panic(err)
 	}
