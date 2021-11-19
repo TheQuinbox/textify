@@ -20,17 +20,13 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("Converting %s to text...", os.Args[1])
-	data, err := os.ReadFile(os.Args[1])
-	if err != nil {
-		panic(err)
-	}
 	var text string
 	if strings.HasSuffix(strings.ToLower(os.Args[1]), ".md") {
-		text = parseMarkdown(string(data))
+		text = parseMarkdown(os.Args[1])
 	} else if strings.HasSuffix(strings.ToLower(os.Args[1]), ".html") || strings.HasSuffix(strings.ToLower(os.Args[1]), ".htm") {
-		text = parseHtml(string(data))
+		text = parseHtml(os.Args[1])
 	}
-	err = os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
+	err := os.WriteFile(fmt.Sprintf("%s.txt", os.Args[1]), []byte(text), 0644)
 	if err != nil {
 		panic(err)
 	}
